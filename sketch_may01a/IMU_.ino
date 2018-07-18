@@ -16,7 +16,7 @@ float imux = 0;
 float imuy = 0;
 float imuz = 0;
 
-float IMULoop(int i){
+float IMULoop(){
     /* Get a new sensor event */ 
   sensors_event_t event; 
   bno.getEvent(&event);
@@ -34,21 +34,10 @@ float IMULoop(int i){
   imuy = event.orientation.y;
   imuz = event.orientation.z;
   
-  imu::Vector<3> acc = bno.getVector(Adafruit_BNO055::VECTOR_ACCELEROMETER);
   
-  float ax = acc.x();
-  float ay = acc.y();
-  float az = acc.z();
-  
-  if(i == 0){
-    return imux;
-  }else if(i == 1){
-    float magnitude = sqrt(pow(ax,2) + pow(ay,2) + pow(az,2));
-    return magnitude;
-  }
+  delay(100);
+  return imux;
 }
-
-
 
 int gyroCal;
 int accelCal;
@@ -60,10 +49,19 @@ int displayCalStatus(void)
   system = gyro = accel = mag = 0;
   bno.getCalibration(&system, &gyro, &accel, &mag);
 
+//  Serial.print("Sys:");
+//  Serial.print(system, DEC);
+//  Serial.print(" G:");
+//  Serial.print(gyro, DEC);
+//  Serial.print(" A:");
+//  Serial.print(accel, DEC);
+//  Serial.print(" M:");
+//  Serial.println(mag, DEC);
+
   gyroCal = gyro;
   accelCal = accel;
   magCal = mag;
-  //Serial.println(mag);
+
   return mag;
   
 }
