@@ -13,7 +13,7 @@ void GPSsetup(){
   
 }
 
-float GPSloop(int i){
+float GPSloop(){
   char c = GPS.read();
   if (GPSECHO)
     if (c) Serial.print(c);
@@ -25,15 +25,9 @@ float GPSloop(int i){
     if (!GPS.parse(GPS.lastNMEA())){}; // this also sets the newNMEAreceived() flag to false
       // we can fail to parse a sentence in which case we should just wait for another
   }
-    if(i == 1){
-      float loc = DMStoDD(GPS.latitude);
-      //Serial.println(loc);
-      return loc;
-    }else if(i == 0){
-      float loc = DMStoDD(GPS.longitude);
-      //Serial.println(loc);
-      return loc;
-    }
+    float loc = DMStoDD(GPS.latitude);
+    Serial.println(DMStoDD(GPS.latitude));
+    return loc;
       // 8==D~~~
 }
 
@@ -71,19 +65,14 @@ float getGPSDistance(float lat1,float lon1,float lat2,float lon2){
   float distanceMeters = c * earthRadiusMeters;
   return distanceMeters;  
 }
-
 float DMStoDD(float dms){
-  //Serial.println(dms);
+
   float d = int(dms / 100);
   float m = (dms - (d * 100));
-  float s = (dms - int(dms)) * 100;
-  float DD;
-  if(d < 0){
-    DD = d - (m/60.0 + s/3600.0);
-  }else{
-    DD = d + (m/60.0 + s/3600.0);
-  }
-  //Serial.println(DD,6);
+  //float sLon = int((dmsLon - (10*dLon) - (mLon)) * 100);
+  
+  float DD = d + (m/60);
+  //Serial.println(DDlat);
   return DD;
   
 }
