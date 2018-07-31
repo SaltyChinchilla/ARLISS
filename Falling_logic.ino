@@ -5,7 +5,15 @@ bool Falling_loop(bool on){
   float release_setpoint = 0;
   if(on){
     //Record current gps point to a falling gps log
-    // clalculate current heading from last two gps points. 
+    float accelsetpoint = 10.072;
+    if IMULoop(1) >= accelsetpoint
+      float LAT = GPSLoop(1);
+      float LON = GPSLoop(0);
+      float GPSCord[] = {LAT, LON}
+      wrtie_to_SD(GPSCord, Landing)
+    
+    
+    
 
     //Check from landing jolt
     if(IMULoop(1) > release_setpoint){

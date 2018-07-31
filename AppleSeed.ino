@@ -57,6 +57,9 @@ String latlog;
 String lonlog;
 String humidlog;
 String clog;
+String Landing;
+
+
 
 String Accel;
 
@@ -78,7 +81,7 @@ void setup() {
   humidlog = fileSetup("hum");
   clog = fileSetup("clog");
   Accel = fileSetup("acel");
-  
+  Landing = fileSetup("Land");
   
   Setpoint = 180;
 
