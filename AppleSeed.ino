@@ -57,6 +57,7 @@ String latlog;
 String lonlog;
 String humidlog;
 String clog;
+String Altlog;
 
 String Accel;
 
@@ -78,6 +79,7 @@ void setup() {
   humidlog = fileSetup("hum");
   clog = fileSetup("clog");
   Accel = fileSetup("acel");
+  Altlog = fileSetup("Altlog");
   
   
   Setpoint = 180;
@@ -95,12 +97,12 @@ bool mapping = true; //stage 2
 bool process = false; //stage 2.1
 bool seeding = true; //Stage 3
 
-int pnts[2] = {10, 7};
+int* pnts;
 void loop() {
   //Test for gps lock and IMU cal status
   GPSloop(0);
   seedServo.writeMicroseconds(1450);
-  if(displayCalStatus() == 3 && 0 == 1){
+  if(displayCalStatus() == 3){
     if(falling){
       falling = Falling_loop(falling);
     }else if(standby){
@@ -111,15 +113,15 @@ void loop() {
       mapping = false;
       write_to_SD(2,clog);   
     }else if(process){
-      //pnts = process_hmap();
-//      pnts[2] = {2, 7};
+      pnts = process_hmap();
       process = false;
       write_to_SD(3,clog);
     }else{
       Serial.println("seeding fo real");
       seeding = seed2(pnts);
       write_to_SD(4,clog);
+    }else{
+      calibrate_imu();
     }
   }
-  write_to_SD(IMULoop(1),Accel);
 }

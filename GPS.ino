@@ -33,6 +33,9 @@ float GPSloop(int i){
       float loc = DMStoDD(GPS.longitude);
       //Serial.println(loc);
       return loc;
+    }else if(i == 2){
+      float loc = GPS.altitude;
+      return loc;      
     }
       // 8==D~~~
 }
