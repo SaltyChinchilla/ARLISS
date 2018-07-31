@@ -3,6 +3,10 @@
 float alt = 0;
 float oldalt = 0;
 bool pastApogee = false;
+float winddirection;
+
+float oldLat = 0;
+float oldLon = 0;
 bool Falling_loop(bool on){
   float release_setpoint = 0;
   if(on){
@@ -18,6 +22,12 @@ bool Falling_loop(bool on){
       pastApogee = false;
     }
     oldalt = alt;
+
+    if(oldLat != GPSloop(1) || oldLon != GPSloop(0)){
+      winddirection = getGPSBearing(oldLat,oldLon,GPSloop(1),GPSloop(0));
+    }
+    oldLat = GPSloop(1);
+    oldLon = GPSloop(0);
     
     //Check from landing jolt
     if(IMULoop(1) > release_setpoint){
